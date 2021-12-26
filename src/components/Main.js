@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
 import classes from "./Main.module.css"
-import Img from "../img/me.png"
 import axiosInstance from "../axiosApi"
 
 const Main = () => {
@@ -9,7 +8,6 @@ const Main = () => {
     const [showUserInfo,setShowUserInfo] = useState(false)
     const [arrivalTime,setArrivalTime] = useState("")
     const [errMessage,setErrMessage] = useState("")
-    const [arrivalTimeSent,setArrivalTimeSent] = useState(false)
     const handleCodeChange = (e) => {
         setCode(e.target.value)
     }
@@ -20,9 +18,8 @@ const Main = () => {
             axiosInstance.get(`${code}/`)
             .then((resp) => {
                 setShowUserInfo(true)
-                setArrivalTimeSent(true)
                 setUserInfo(resp.data)
-                console.log(resp.data)
+               /*  console.log(resp.data) */
             })
         }
         else{
@@ -33,16 +30,28 @@ const Main = () => {
     }
     const handleArrivalTimeChange = (e) => {
         setArrivalTime(e.target.value)
-        setArrivalTimeSent(true)
         axiosInstance.get(`${code}/`,{
             arrival_time:e.target.value
         })
         .then(resp => {
-            console.log(resp)
-            
-            console.log("arrival time set")
+            /* console.log(resp)
+            console.log("arrival time set") */
         })
-        console.log(e.target.value)
+        /* console.log(e.target.value) */
+    }
+    let arrivalContent = ""
+    if (arrivalTime === ""){
+        arrivalContent = (<>
+            <p>Arrival time:</p>
+                                <input onChange={handleArrivalTimeChange} value={arrivalTime} type="time" />
+                                <p>(Please set your arrival time)</p>
+                        </>
+        )
+    }
+    else{
+        arrivalContent =(
+            <p>Arrival time: {arrivalTime}(Thank you, your host has been informed about your arrival time)</p>
+        )
     }
     
     return (
@@ -75,16 +84,11 @@ const Main = () => {
                         <p>Check out date: <span>{userInfo.check_out_date}</span></p>
                     </div>
                     <form >
-                        {arrivalTimeSent ?
+                        
                         <div className={classes.arrival}>
-                            <p>Arrival time:</p>
-                                <input onChange={handleArrivalTimeChange} value={arrivalTime} type="time" />
-                                <p>(Please set your arrival time)</p> 
-                            
-                                
-                        </div>:
-                        <p>{arrivalTime}(Thank you, your host has been informed about your arrival time)</p>
-                        }
+                            {arrivalContent}
+                        </div>
+                        
                     </form>
                 </div>
             }
