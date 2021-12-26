@@ -1,0 +1,24 @@
+.dashboard-container{
+    width: 100%;
+    display:flex;
+    justify-content:center;
+}
+.dashboard{
+    display: flex;
+    max-width:1144px;
+    width: 100%;
+    height: calc(100vh - 37px); 
+    height: 100%;
+}
+.sidebar{
+    flex: .25;
+    height: 100% ;
+    background-color: #2E053B;
+    color: #fff;
+    height: calc(100vh - 37px); 
+}
+.main{
+    flex: .75;
+    height: 100%;
+    height: calc(100vh - 37px); 
+}
